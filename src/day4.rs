@@ -1,4 +1,4 @@
-use std::ops::{Range, RangeInclusive};
+use std::ops::RangeInclusive;
 
 use nom::{
     bytes::complete::tag,
@@ -38,14 +38,16 @@ fn get_elf_sections(input: &str) -> IResult<&str, RangeInclusive<u32>> {
     Ok((input, start..=end))
 }
 
-fn get_sections(line: &str) -> IResult<&str, (RangeInclusive<u32>, RangeInclusive<u32>)> {
+fn get_sections(line: &str) -> IResult<&str, Section> {
     let (input, (start, end)) =
         nom::sequence::separated_pair(get_elf_sections, tag(","), get_elf_sections)(line)?;
 
     Ok((input, (start, end)))
 }
 
-fn get_assignments(input: &str) -> IResult<&str, Vec<(RangeInclusive<u32>, RangeInclusive<u32>)>> {
+type Section = (RangeInclusive<u32>, RangeInclusive<u32>);
+
+fn get_assignments(input: &str) -> IResult<&str, Vec<Section>> {
     let (input, ranges) = separated_list1(newline, get_sections)(input)?;
 
     Ok((input, ranges))

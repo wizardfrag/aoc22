@@ -37,14 +37,14 @@ pub fn part1(input: &str) -> String {
         .lines()
         .map(|line| {
             let moves: Vec<Move> = line
-                .split(" ")
+                .split(' ')
                 .map(|s| s.parse::<Move>().unwrap())
                 .collect();
 
             match moves[0].partial_cmp(&moves[1]) {
                 Some(Ordering::Equal) => 3 + moves[1] as u32,
                 Some(Ordering::Less) => 6 + moves[1] as u32,
-                Some(Ordering::Greater) => 0 + moves[1] as u32,
+                Some(Ordering::Greater) => moves[1] as u32,
                 None => panic!("Wat?"),
             }
         })
@@ -56,7 +56,7 @@ pub fn part2(input: &str) -> String {
     let result: u32 = input
         .lines()
         .map(|line| -> u32 {
-            let moves: Vec<&str> = line.split(" ").collect();
+            let moves: Vec<&str> = line.split(' ').collect();
             let opponent_move = moves[0].parse::<Move>().unwrap();
 
             match moves[1] {
@@ -66,7 +66,7 @@ pub fn part2(input: &str) -> String {
                         Move::Paper => Move::Rock,
                         Move::Scissors => Move::Paper,
                     };
-                    0 + our_move as u32
+                    our_move as u32
                 }
                 "Y" => 3 + opponent_move as u32,
                 "Z" => {

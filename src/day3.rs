@@ -10,7 +10,7 @@ pub fn part1(input: &str) -> String {
             let second: HashSet<char> = second.chars().collect();
 
             let intersection: Vec<char> = (&first & &second).into_iter().collect();
-            intersection.first().unwrap().clone()
+            *intersection.first().unwrap()
         })
         .fold(0, score);
 
@@ -28,7 +28,7 @@ pub fn part2(input: &str) -> String {
                 .collect();
             let intersection1 = &rucksacks[0] & &rucksacks[1];
             let intersection2: Vec<char> = (&intersection1 & &rucksacks[2]).into_iter().collect();
-            (intersection2.first().unwrap()).clone()
+            *intersection2.first().unwrap()
         })
         .fold(0, score);
 
